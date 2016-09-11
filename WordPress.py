@@ -36,7 +36,7 @@ while True:
 [2] Long Form
 [3] Quit
 > """)
-        if usr_choice == "3" or usr_choice == "q":
+        if usr_choice == "3" or usr_choice.lower() == "q":
             print "Goodbye!"
             break
         elif usr_choice == "2":
@@ -72,14 +72,14 @@ Please note that you can only use 'single quotes' for the file to be valid"""
 [2] C++
 [3] Quit
 > """)
-        if usr_choice == "3" or usr_choice == "q":
+        if usr_choice == "3" or usr_choice.lower() == "q":
             print "Goodbye!"
             break
         elif usr_choice == "2":
             choice = "C++"
         else:
             usr_choice = "1"
-            choice = "100 word stories"
+            choice = "Opinion"
         title = raw_input("Enter a title for the blog post: ")
         print "You chose [%s]" % usr_choice
     
