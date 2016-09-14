@@ -6,6 +6,27 @@ from wordpress_xmlrpc.methods.posts import NewPost
 import getpass
 import sys
 
+def access_WP(title, choice):
+    print "You chose [%s]" % usr_choice
+    
+    print """Accessing WPS.txt...
+Please note that you can only use 'single quotes' for the file to be valid"""
+    with open("WPS.txt", "r") as f:
+        story = f.read()
+    
+        post = WordPressPost()
+        post.title = title
+        post.content = story
+        post.terms_names = {
+            'category': [choice]
+        }
+        print "Connecting..."
+        post.id = wp.call(posts.NewPost(post))
+        print "Posting..."
+        post.post_status = 'publish'
+        wp.call(posts.EditPost(post.id, post))
+        print """Finished!
+""" 
 
 site_choice = raw_input("""Which site do you want to update:
 (Defaults to [1] Saluting Pigs)
@@ -27,9 +48,6 @@ pw = getpass.getpass("Please type your password: ")
 wp = Client(siteURL, 'Chewie23', pw)
 print "Got Client"
 
-#TODO:
-#Need to functionalize the repeated code
-
 while True:    
     if site_choice == "1":
         usr_choice = raw_input("""Please enter your category:
@@ -47,26 +65,8 @@ while True:
         else:
             usr_choice = "1"
             choice = "100 word stories"
-            print "You chose [%s]" % usr_choice
-    
-            print """Accessing WPS.txt...
-Please note that you can only use 'single quotes' for the file to be valid"""
-        with open("WPS.txt", "r") as f:
-            story = f.read()
-        
-            post = WordPressPost()
-            post.title = title
-            post.content = story
-            post.terms_names = {
-                'category': [choice]
-            }
-            print "Connecting..."
-            post.id = wp.call(posts.NewPost(post))
-            print "Posting..."
-            post.post_status = 'publish'
-            wp.call(posts.EditPost(post.id, post))
-            print """Finished!
-""" 
+            title = " "
+        access_WP(title, choice)
     elif site_choice == "2":
         usr_choice = raw_input("""Please enter your category:
 (Defaults to [1] Opinion)
@@ -83,24 +83,6 @@ Please note that you can only use 'single quotes' for the file to be valid"""
             usr_choice = "1"
             choice = "Opinion"
         title = raw_input("Enter a title for the blog post: ")
-        print "You chose [%s]" % usr_choice
-    
-        print """Accessing WPS.txt...
-Please note that you can only use 'single quotes' for the file to be valid"""
-        with open("WPS.txt", "r") as f:
-            story = f.read()
-        
-            post = WordPressPost()
-            post.title = title
-            post.content = story
-            post.terms_names = {
-                'category': [choice]
-            }
-            print "Connecting..."
-            post.id = wp.call(posts.NewPost(post))
-            print "Posting..."
-            post.post_status = 'publish'
-            wp.call(posts.EditPost(post.id, post))
-            print """Finished!
-"""
+        access_WP(title, choice)
+
         
